@@ -28,9 +28,13 @@ With the LDAP ASN.1 Schema if we decode the binary payload it will look like thi
 <pre>
 {'messageID': 1, 'protocolOp': ('searchRequest', {'baseObject': b'', 'scope': 'baseObject', 'derefAliases': 'neverDerefAliases', 'sizeLimit': 0, 'timeLimit': 0, 'typesOnly': False, 'filter': ('present', b'objectclass'), 'attributes': []})}
 </pre>
-Since it is decoded, it is clear that is just a search request for all objects in the directory of LDAP (baseObject is an empty string which means the search starts from the root of the directory). this is actually the cause of amplification in DDoS attacks in the protocol. In other words, the returned result is usually much larger than the query itself.
+Since it is decoded, it is clear that is a search request for all objects in the directory of LDAP (baseObject is an empty string which means the search starts from the root of the directory and where the 'objectclass' attribute is present). this is actually the cause of amplification in DDoS attacks in the protocol. In other words, the returned result is usually much larger than the query itself.
 
-An example of cLDAP packets captured from a DDoS attack is available [here](amp.cldap.pcap). we can we how large the responses are.
+for testing purposes, we can send the payload to a ldap server and check the size of the response via wireshark or tcpdump:
+<pre>echo "\x30\x25\x02\x01\x01\x63\x20\x04\x00\x0a\x01\x00\x0a\x01\x00\x02\x01\x00\x02\x01\x00\x01\x01\x00\x87\x0b\x6f\x62\x6a\x65\x63\x74\x63\x6c\x61\x73\x73\x30\x00" | nc -4u -w1 SERVER-ADDRESS-HERE 389</pre>
+
+An example of cLDAP packets captured from a DDoS attack is available [here](amp.cldap.pcap).
+
 
 
 

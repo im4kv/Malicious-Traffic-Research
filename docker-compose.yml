@@ -1,0 +1,21 @@
+version: '2.3'
+
+networks:
+  mtr_local:
+
+services:
+  cldap:
+    container_name: mtr-cldap
+    restart: always
+#    cpu_count: 1
+#    cpus: 0.25
+    networks:
+     - mtr_local
+    ports:
+     - "1389:389/udp"
+    image: "mtr-cldap"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"

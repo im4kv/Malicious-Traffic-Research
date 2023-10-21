@@ -1,7 +1,5 @@
 name: publish
-on:
-  push:
-    branches: ['main','udp-389-cldap']
+on: [push]
 jobs:
   publish-cldap-docker-image:
     runs-on: ubuntu-latest

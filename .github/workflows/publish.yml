@@ -16,5 +16,4 @@ jobs:
         run: |
               cd 'UDP 389 - cLDAP - DDoS Amplification'
               docker build . --tag ghcr.io/im4kv/malicious-traffic-research:cldap.latest
-              docker run ghcr.io/im4kv/malicious-traffic-research:cldap.latest
               docker push ghcr.io/im4kv/malicious-traffic-research:cldap.latest

@@ -11,7 +11,7 @@ services:
      - mtr_local
     ports:
      - "389:389/udp"
-    image: "mtr-cldap"
+    image: "hcr.io/im4kv/malicious-traffic-research:cldap.latest"
     logging:
       driver: "json-file"
       options:

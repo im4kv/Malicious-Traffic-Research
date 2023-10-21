@@ -14,6 +14,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the cLDAP Honeypot Docker image
         run: |
-              docker build . --tag ghcr.io/im4kv/Malicious-Traffic-Research:cldap.latest
-              docker run ghcr.io/im4kv/Malicious-Traffic-Research:cldap.latest
-              docker push ghcr.io/im4kv/Malicious-Traffic-Research:cldap.latest
+              docker build . --tag ghcr.io/im4kv/malicious-traffic-research:cldap.latest
+              docker run ghcr.io/im4kv/malicious-traffic-research:cldap.latest
+              docker push ghcr.io/im4kv/malicious-traffic-research:cldap.latest

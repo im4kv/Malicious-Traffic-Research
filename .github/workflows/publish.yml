@@ -1,0 +1,34 @@
+name: publish
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish-cldap-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            cldap:
+              - 'UDP-389-cLDAP-DDoS-Amplification/**'
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # run only if some file in 'cldap' folder was changed
+      - name: Build the cLDAP Honeypot Docker image
+        if: steps.changes.outputs.cldap == 'true'
+        run: |
+              cd UDP-389-cLDAP-DDoS-Amplification
+              docker build . --tag ghcr.io/im4kv/malicious-traffic-research:cldap.latest
+              docker push ghcr.io/im4kv/malicious-traffic-research:cldap.latest

@@ -1,0 +1,31 @@
+version: '2.3'
+
+networks:
+  mtr_local:
+
+services:
+  cldap:
+    container_name: mtr-cldap
+    restart: always
+    networks:
+     - mtr_local
+    ports:
+     - "389:389/udp"
+    image: "hcr.io/im4kv/malicious-traffic-research:cldap.latest"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+  # A Web-based service to view containers logs available at http://your-ip-address:9999 (Disabled by deafult).
+  dozzle:
+    container_name: dozzle
+    restart: always
+    # comment the profiles section to enable the service
+    profiles:
+      - donotstart
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9999:8080

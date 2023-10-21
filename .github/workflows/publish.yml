@@ -1,5 +1,7 @@
 name: publish
-on: [push]
+on:
+  push:
+    branches: ['main','udp-389-cldap']
 jobs:
   publish-cldap-docker-image:
     runs-on: ubuntu-latest
@@ -13,7 +15,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the cLDAP Honeypot Docker image
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'UDP-389-cLDAP-DDoS-Amplification/**'
+      # run only if some file in 'cldap' folder was changed
+      - if: steps.changes.outputs.src == 'true'
         run: |
-              cd 'UDP 389 - cLDAP - DDoS Amplification'
+              cd UDP-389-cLDAP-DDoS-Amplification
               docker build . --tag ghcr.io/im4kv/malicious-traffic-research:cldap.latest
               docker push ghcr.io/im4kv/malicious-traffic-research:cldap.latest

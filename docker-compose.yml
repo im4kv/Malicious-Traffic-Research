@@ -17,7 +17,7 @@ services:
       options:
         max-size: "50m"
         max-file: "5"
-  # A Web-based service to view containers logs (Disabled by deafult).
+  # A Web-based service to view containers logs available at http://your-ip-address:9999 (Disabled by deafult).
   dozzle:
     container_name: dozzle
     restart: always

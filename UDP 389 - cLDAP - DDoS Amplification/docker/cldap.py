@@ -21,5 +21,5 @@ class MockCLDAP(DatagramProtocol):
         log.msg(f"Decoded Request {addr}: {self.decoded_request}")
 
 
-reactor.listenUDP(1389, MockCLDAP())
+reactor.listenUDP(389, MockCLDAP())
 reactor.run()

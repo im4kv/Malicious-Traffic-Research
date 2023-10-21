@@ -7,15 +7,25 @@ services:
   cldap:
     container_name: mtr-cldap
     restart: always
-#    cpu_count: 1
-#    cpus: 0.25
     networks:
      - mtr_local
     ports:
-     - "1389:389/udp"
+     - "389:389/udp"
     image: "mtr-cldap"
     logging:
       driver: "json-file"
       options:
         max-size: "50m"
         max-file: "5"
+  # A Web-based service to view containers logs (Disabled by deafult).
+  dozzle:
+    container_name: dozzle
+    restart: always
+    # comment the profiles section to enable the service
+    profiles:
+      - donotstart
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9999:8080

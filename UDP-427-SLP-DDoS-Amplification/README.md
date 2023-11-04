@@ -51,18 +51,36 @@ Here are general structure of the SLP requests:
 |      Language Tag Length      |         Language Tag          \
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-Version (1 byte): Indicates the version of the SLP protocol being used. For SLPv2, this field will have a value of 2.
-Function ID (1 byte): Specifies the function or operation of the request (e.g., Service Request, Attribute Request, Service Type Request, etc.).
-Reserved (2 bytes): These bytes are reserved for future use and are typically set to 0x0000 (zero).
-Length (2 bytes): Specifies the total length of the request message, including the header.
-Language Code (2 bytes): Indicates the natural language in which the request is made.
-Stateless Boot Timestamp (4 bytes): Used in stateless mode to aid in the synchronization of time between the client and responder.
-XID (4 bytes): Transaction Identifier. A unique value assigned to each request-response pair to match them up.
-Encoding (1 byte): Specifies the encoding of the message (e.g., UTF-8).
-Scope List (variable length): A list of scopes that restrict the search space for service responses. Each scope is represented as a length byte followed by the scope string.
-Predicate (variable length): Specifies the search criteria for the request. This can include service type, attributes, and other filters.
-Authentication Blocks (variable length): Contains authentication information if security is enabled.
-SLP SPI List (variable length): List of Service Provider Interfaces (SPIs) that can process the request.
+Information about fields:
+
+Version (2 bytes): This field indicates the version of the SLP protocol being used.
+
+Function ID (2 bytes): Specifies the function of the message (e.g., Service Request, Service Reply, Service Registration).
+    Service Request          SrvRqst              1             # Absused in DDoS Attacks
+    Service Reply            SrvRply              2
+    Service Registration     SrvReg               3             # Abused in DDoS Attacks
+    Service Deregister       SrvDeReg             4
+    Service Acknowledge      SrvAck               5
+    Attribute Request        AttrRqst             6
+    Attribute Reply          AttrRply             7
+    DA Advertisement         DAAdvert             8
+    Service Type Request     SrvTypeRqst          9             #  Abused in DDoS Attacks
+    Service Type Reply       SrvTypeRply          10
+    SA Advertisement         SAAdvert             11
+
+Length (2 bytes): Indicates the length of the message in bytes.
+
+Flags (1 byte): Contains flags that provide additional information about the message.
+
+Next Ext Offset (1 byte): Points to the offset of the next extension, allowing for variable-length extension blocks.
+
+XID (2 bytes): Transaction identifier used to match replies to requests.
+
+Language Tag (variable length): Indicates the natural language used in string fields.
+
+Payload (variable length): Contains the specific information related to the function of the message (e.g., URL for service location, service attributes, etc.).
+
+Extensions (variable length): May be present in some messages to carry additional information.
 </pre>
 
 Here is an example of a binary SLP request used to to check vulnerable servers: <pre>\x02\t\x00\x00\x1d\x00\x00\x00\x00\x00s_\x00\x02en\x00\x00\xff\xff\x00\x07default</pre>

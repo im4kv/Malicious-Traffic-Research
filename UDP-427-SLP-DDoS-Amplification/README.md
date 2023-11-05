@@ -94,9 +94,21 @@ The decoded payload shows it is a SLP version two packet which contains a `Servi
 for testing purposes, we can send the payload to a SLP server and check the size of the response via wireshark or tcpdump:
 <pre>echo "\x02\t\x00\x00\x1d\x00\x00\x00\x00\x00s_\x00\x02en\x00\x00\xff\xff\x00\x07default" | nc -4u -w1 SERVER-ADDRESS-HERE 427</pre>
 
+A greatly amplified attack using SLP would have the following attack design:
+1) Find a publicly available SLP service - Reconnaissance
+2) Verify it allows registration of new services - Setup Phase
+3) Register services, until SLP denies more entries - Setup Phase
+4) Check response size - Finalize
+5) Create spoofed packet-stream with the victim as the origin - Launch an attack
 
 
+### [Honeypot Service Info](docker)
 
+ - Honeypot service will accept three `function_id`: Service Request, Service Registration and Service Type Request.
+ - It will parse the protocol and drop the coming datagram in case the packet is malformed.
+ - In the case of Service Request and Service Type Requests, the server will respond with two predefined services (The URI of an API and VMware ESXi service)
+ - For Service Registration requests, it will not store the Incoming data but acknowledge the requests.
+ - The default rate limiting threshold is five datagrams (5 requests) per 24 hours. The server will not respond to the requests when the rate limiting threshold is exceeded.
 
 
 

@@ -11,7 +11,20 @@ services:
      - mtr_local
     ports:
      - "389:389/udp"
-    image: "hcr.io/im4kv/malicious-traffic-research:cldap.latest"
+    image: "ghcr.io/im4kv/malicious-traffic-research:cldap.latest"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+  slp:
+    container_name: mtr-slp
+    restart: always
+    networks:
+     - mtr_local
+    ports:
+     - "427:427/udp"
+    image: "ghcr.io/im4kv/malicious-traffic-research:cldap.latest"
     logging:
       driver: "json-file"
       options:

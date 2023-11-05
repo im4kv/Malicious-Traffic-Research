@@ -1,8 +1,5 @@
 # cLDAP (Connectionless Lightweight Directory Access Protocol) UDP 389
 
----
-
-
 
 ### protocol flaw
 
